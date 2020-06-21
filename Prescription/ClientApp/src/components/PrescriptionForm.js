@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, Space } from 'antd';
 import { AudioOutlined } from "@ant-design/icons";
-import NameInput from "./NameInput";
+import InputField from "./InputField";
 
 const PrescriptionForm = () => {
 
@@ -11,26 +11,69 @@ const PrescriptionForm = () => {
             wrapperCol: { span: 16 },
       };
 
-      const[name, setName] = useState("");
-      const[age, setAge] = useState(0);
+      const [name, setName] = useState("");
+      const [age, setAge] = useState(0);
+      const [symptoms, setSymptoms] = useState("");
+      const [diagnosis, setDiagnosis] = useState("");
+      const[remarks,setRemarks] = useState("");
 
-      function handleNameChange(newName){
+      function handleNameChange(newName) {
             setName(newName)
       }
+      function handleAgeChange(newAge) {
+            setAge(newAge)
+      }
+
       return (
-            <Form {...layout} name="nest-messages" >
-                  <Form.Item  label="Introduction">
-                        <NameInput patientNameSetter = {handleNameChange} />                        
+            <Space size={"large"}>
+                 
+            <Form name="nest-messages" >
+                  <Form.Item xs={{ span: 22, alignItems: 'center' }} md={{ span: 12, alignItems: 'center', }}>
+                        { }
+                        <br />
+                        <InputField changeHandler={(newName) => handleNameChange(newName)} labelName={"Name"} />
+                        { }
+                        <br />
                   </Form.Item>
-                  <Form.Item  label="Introduction">
-                        <NameInput patientAge = {age} />                        
+                  <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
+                        { }
+                        <br />
+                        <InputField changeHandler={(newAge) => handleAgeChange(newAge)} labelName={"Age"} />
+                        { }
+                        <br />
+                  </Form.Item>
+                  <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
+                        { }
+                        <br />
+                        <InputField changeHandler={(newSymptoms) => setSymptoms(newSymptoms)} labelName={"Symptoms"} />
+                        { }
+                        <br />
+                  </Form.Item>
+                  <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
+                        { }
+                        <br />
+                        <InputField changeHandler={(newDiagnosis) => setDiagnosis(newDiagnosis)} labelName={"Diagnosis"} />
+                        { }
+                        <br />
+                  </Form.Item>
+                  <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
+                        { }
+                        <br />
+                        <InputField changeHandler={(newRemarks) => setRemarks(newRemarks)} labelName={"Remarks"} />
+                        { }
+                        <br />
                   </Form.Item>
                   <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                        <Button type="primary" htmlType="submit">
-                              Generate PDF
+                        { }
+                        <br />
+                        <Button type="primary" block>
+                              Generate-Prescription
                         </Button>
+                      
                   </Form.Item>
             </Form>
+            
+            </Space>
       );
 }
 

@@ -8,7 +8,7 @@ import { IconButton } from '@material-ui/core';
 import useSpeechRecognition from './UseSpeechRecognition';
 
 
-const NameInput = (props) => {
+const InputField = ({ changeHandler, labelName }) => {
 
       const [lang, setLang] = useState('en-US');
       const [value, setValue] = useState('');
@@ -16,7 +16,7 @@ const NameInput = (props) => {
 
       const onEnd = () => {
             // You could do something here after listening has finished
-            // props.handleNameChange()
+             changeHandler(value);
       };
 
       const onResult = (result) => {
@@ -67,7 +67,7 @@ const NameInput = (props) => {
       return (
             <>
                   <InputLabel htmlFor="standard-adornment-password">
-                        Name
+                        {labelName}
                   </InputLabel>
                   <Input
                         id="transcript"
@@ -85,4 +85,4 @@ const NameInput = (props) => {
       );
 }
 
-export default NameInput;
+export default InputField;
