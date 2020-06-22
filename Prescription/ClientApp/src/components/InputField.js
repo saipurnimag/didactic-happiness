@@ -70,6 +70,7 @@ const InputField = ({ changeHandler, labelName }) => {
                         {labelName}
                   </InputLabel>
                   <Input
+                        type = "text"
                         id="transcript"
                         value={value}
                         endAdornment={
