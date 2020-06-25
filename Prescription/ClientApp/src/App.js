@@ -9,6 +9,7 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import Prescription from './components/Prescription';
+import NavigationBar from './components/NavigationBar';
 import './custom.css'
 
 
@@ -16,15 +17,15 @@ export default class App extends Component {
   static displayName = App.name;
 
   render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
+      return (
+        <>
+        <Route exact path='/' component={NavigationBar} />
             <Route path='/counter' component={Counter} />
             <Route path='/prescription' component={Prescription} />
             <Route path='/speech' component = {SpeechRecognition} />
             <AuthorizeRoute path='/fetch-data' component={FetchData} />
-            <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
-      </Layout>
+           <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+      </>
     );
   }
 }
