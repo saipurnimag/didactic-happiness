@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
-import { Form, Button, Space } from 'antd';
+import React, { useState } from "react";
+import { Form, Input, Button, Checkbox } from "antd";
+import {
+      HomeOutlined,
+      UserDeleteOutlined,
+      SmileOutlined,
+      SettingOutlined,
+      LoginOutlined,
+      LockOutlined,
+      GithubOutlined,
+      FilePdfFilled,
+      FilePdfOutlined,
+      SendOutlined,
+      MailOutlined,
+} from "@ant-design/icons";
 import InputField from "./InputField";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-const PrescriptionForm = () => {
+const useStyles = makeStyles((theme) => ({
+      root: {
+            "& > *": {
+                  margin: theme.spacing(1),
+                  width: "25ch",
+            },
+      },
+}));
 
+const PrescriptionForm = () => {
+      const classes = useStyles();
 
       const layout = {
             labelCol: { span: 8 },
@@ -18,157 +42,145 @@ const PrescriptionForm = () => {
       const [remarks, setRemarks] = useState("no remarks");
       const [loading, setLoading] = useState(false);
       const [medication, setMedication] = useState("no medicines");
+      const [email, setEmail] = useState("coolestcucumber123@gmail.com");
       const [] = useState(null);
 
       function handleNameChange(newName) {
-            setName(newName)
+            setName(newName);
       }
       function handleAgeChange(newAge) {
-            setAge(newAge)
+            setAge(newAge);
       }
 
-      function handleSymptomsChange(newSymptoms){
-            setSymptoms(newSymptoms)
+      function handleSymptomsChange(newSymptoms) {
+            setSymptoms(newSymptoms);
       }
 
-      function handleDiagnosisChange(newDiagnosis){
-            setDiagnosis(newDiagnosis)
+      function handleDiagnosisChange(newDiagnosis) {
+            setDiagnosis(newDiagnosis);
       }
 
-      function handleMedicationChange(newMedication){
-            setMedication(newMedication)
+      function handleMedicationChange(newMedication) {
+            setMedication(newMedication);
       }
 
-      function handleRemarksChange(newRemarks){
-            setRemarks(newRemarks)
+      function handleRemarksChange(newRemarks) {
+            setRemarks(newRemarks);
+      }
+
+      function handleEmailChange(newEmail){
+            setEmail(newEmail);
       }
 
       function sendPDFReq() {
             if (!loading) setLoading(true);
-            
-          axios({
-                  method: 'POST',
-                   url: '/WeatherForecast',
-                   responseType: "blob",
-                   data: {
-                        "Name": name+" ",
-                        "Age": age+" ",
-                        "Symptoms": symptoms+" ",
-                        "Diagnosis": diagnosis+" ",
-                        "Medication": medication+" ",
-                        "Remarks":  remarks+" ",
-                   }
 
-             }).then((result) => {
-                   //convert result to base 64
-                   const file = new Blob(
-                        [result.data], 
-                        {type: 'application/pdf'});
-                  const fileURL = URL.createObjectURL(file);//Open the URL on new Window
-                  window.open(fileURL);
-                   
-                   //setEncodedString(new Buffer(result.data).toString('base64'))
-             }).catch((error)=>{
-                   console.log(error)
-                   console.log("result = "+ typeof error);
-             })
+            axios({
+                  method: "POST",
+                  url: "/WeatherForecast",
+                  responseType: "blob",
+                  data: {
+                        Name: name + " ",
+                        Age: age + " ",
+                        Symptoms: symptoms + " ",
+                        Diagnosis: diagnosis + " ",
+                        Medication: medication + " ",
+                        Remarks: remarks + " ",
+                  },
+            })
+                  .then((result) => {
+                        //convert result to base 64
+                        const file = new Blob([result.data], { type: "application/pdf" });
+                        const fileURL = URL.createObjectURL(file); //Open the URL on new Window
+                        window.open(fileURL);
+
+                        //setEncodedString(new Buffer(result.data).toString('base64'))
+                  })
+                  .catch((error) => {
+                        console.log(error);
+                        console.log("result = " + typeof error);
+                  });
       }
 
-    function sendEmail() {
-
-        axios({
-            method: 'GET',
-            url: '/WeatherForecast',
-            data: {
-                "Name": name + " ",
-                "Age": age + " ",
-                "Symptoms": symptoms + " ",
-                "Diagnosis": diagnosis + " ",
-                "Medication": medication + " ",
-                "Remarks": remarks + " ",
-            }
-
-        }).then((result) => {
-            console.log(result.data);
-        }).catch((error) => {
-            console.log(error)
-            console.log("result = " + typeof error);
-        })
-
-    }
-      
+      function sendEmail() {
+            axios({
+                  method: "GET",
+                  url: "/WeatherForecast",
+                  data: {
+                        Name: name + " ",
+                        Age: age + " ",
+                        Symptoms: symptoms + " ",
+                        Diagnosis: diagnosis + " ",
+                        Medication: medication + " ",
+                        Remarks: remarks + " ",
+                  },
+            })
+                  .then((result) => {
+                        console.log(result.data);
+                  })
+                  .catch((error) => {
+                        console.log(error);
+                        console.log("result = " + typeof error);
+                  });
+      }
 
       return (
-            <Space size={"large"}>
-                  <Form name="nest-messages" onFinish={sendPDFReq} >
-                        <Form.Item xs={{ span: 22, alignItems: 'center' }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Name" onChange = {(text)=> handleNameChange(text)} /> */}
-                              <TextField id="standard-basic" label="Standard" />
-                              {}
-                              <br />
-                        </Form.Item>
-                        <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Age" onChange = {(text)=> handleAgeChange(text)} /> */}
-                              <InputField changeHandler={(newAge) => handleAgeChange(newAge)} labelName={"Age"} />
-                              {}
-                              <br />
-                        </Form.Item>
-                        <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Age" onChange = {(text)=> handleAgeChange(text)} /> */}
-                              <InputField changeHandler={(newSymptoms) => handleSymptomsChange(newSymptoms)} labelName={"Symptoms"} />
-                              {}
-                              <br />
-                        </Form.Item>
-                        <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Age" onChange = {(text)=> handleAgeChange(text)} /> */}
-                              <InputField changeHandler={(newDiagnosis) => handleDiagnosisChange(newDiagnosis)} labelName={"Diagnosis"} />
-                              {}
-                              <br />
-                        </Form.Item>
-                        <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Age" onChange = {(text)=> handleAgeChange(text)} /> */}
-                              <InputField changeHandler={(newMedication) => handleMedicationChange(newMedication)} labelName={"Medication"} />
-                              {}
-                              <br />
-                        </Form.Item>
-                        <Form.Item xs={{ span: 22 }} md={{ span: 12, alignItems: 'center', }}>
-                              {}
-                              <br />
-                              {/* <Input type="text" placeholder="Age" onChange = {(text)=> handleAgeChange(text)} /> */}
-                              <InputField changeHandler={(newRemarks) => handleRemarksChange(newRemarks)} labelName={"Remarks"} />
-                              {}
-                              <br />
-                        </Form.Item>
-                        
-                        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                              {}
-                              <br />
-                              
-                              <Button type="primary" htmlType="submit">
-                                    Submit
-                              </Button>
-
-                      <br />
-                      <Button type="primary" onClick={sendEmail}>
-                          Send Email pls!
-                              </Button>
-
-                                
-                        </Form.Item>
-                  </Form>
-                  
-            </Space>
+            <Form name="nest-messages" onFinish={sendPDFReq}>
+                  <Form.Item >
+                        <InputField
+                              changeHandler={(newName) => handleNameChange(newName)}
+                              labelName={"Name"}
+                        />
+                  </Form.Item>
+                  <Form.Item>
+                        <InputField
+                              changeHandler={(newAge) => handleAgeChange(newAge)}
+                              labelName={"Age"}
+                        />
+                  </Form.Item>
+                  <Form.Item>
+                        <InputField
+                              changeHandler={(newSymptoms) => handleSymptomsChange(newSymptoms)}
+                              labelName={"Symptoms"}
+                        />
+                  </Form.Item>
+                  <Form.Item>
+                        <InputField
+                              changeHandler={(newDiagnosis) => handleDiagnosisChange(newDiagnosis)}
+                              labelName={"Diagnosis"}
+                        />
+                  </Form.Item>
+                  <Form.Item>
+                        <InputField
+                              changeHandler={(newMedication) =>
+                                    handleMedicationChange(newMedication)
+                              }
+                              labelName={"Medication"}
+                        />
+                  </Form.Item>
+                  <Form.Item>
+                        <InputField
+                              changeHandler={(newRemarks) => handleRemarksChange(newRemarks)}
+                              labelName={"Remarks"}
+                        />
+                  </Form.Item>
+                  <center>
+                  <Button shape="round" type="primary" style={{minWidth:"30%"}} icon={<FilePdfOutlined />} size={"large"}>
+                        Generate PDF
+                  </Button>
+                  <br />
+                  <br />
+                  </center>
+                  <Form.Item>
+                        <Input onChange={ (text) => {handleEmailChange(text)}} placeholder="useEmail" prefix={<MailOutlined />} />
+                  </Form.Item>
+                  <center>
+                  <Button  shape="round" type = "primary" style={{minWidth:"30%"}} icon={<SendOutlined />} size="large">
+                        Send Email
+                  </Button>
+                  </center>
+            </Form>
       );
-}
+};
 
 export default PrescriptionForm;

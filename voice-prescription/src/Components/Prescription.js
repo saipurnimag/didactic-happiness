@@ -13,7 +13,7 @@ function Prescription() {
                     <Col span={8} offset={8}>
                         <center>
                             <Title>Generate Prescriptions</Title>
-                            
+                            <br />
                         </center>
                     </Col>
                     
@@ -25,9 +25,11 @@ function Prescription() {
                         </center>
                         <PrescriptionForm />
                     </Col>
-                    <Col span={8} offset={1} style={{ backgroundColor: "pink" }}>
-                        col-6 col-offset-6
-          </Col>
+                    <Col span={8} offset={1} >
+                        <center>
+                        <Title level={4}>Your previous prescriptions</Title>                            
+                        </center>
+                    </Col>
                 </Row>
             
         </Content>
