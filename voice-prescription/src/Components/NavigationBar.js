@@ -23,7 +23,7 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="menuBar" >
-        <div className="logo">
+        <div className="logo" style={{ sm:18, md:8, lg:8}}>
           <a href="">VoicePrescription</a>
         </div>
         <div className="menuCon">
