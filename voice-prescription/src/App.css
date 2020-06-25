@@ -1,6 +1,10 @@
 
 @import '~antd/dist/antd.css';
 
+.rightMenu{
+  padding-top: 5px;
+}
+
 .menuBar{
   padding: 0 20px;
   border-bottom: solid 1px #e8e8e8;
@@ -15,7 +19,7 @@
 }
 .logo a{
   display: inline-block;
-  font-size: 22px;
+  font-size: 17px;
   padding: 19px 20px;
   text-transform: capitalize;
 }
