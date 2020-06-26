@@ -1,39 +1,17 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import {
-      HomeOutlined,
-      UserDeleteOutlined,
-      SmileOutlined,
-      SettingOutlined,
-      LoginOutlined,
-      LockOutlined,
-      GithubOutlined,
-      FilePdfFilled,
       FilePdfOutlined,
       SendOutlined,
       MailOutlined,
 } from "@ant-design/icons";
 import InputField from "./InputField";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-      root: {
-            "& > *": {
-                  margin: theme.spacing(1),
-                  width: "25ch",
-            },
-      },
-}));
+
 
 const PrescriptionForm = () => {
-      const classes = useStyles();
 
-      const layout = {
-            labelCol: { span: 8 },
-            wrapperCol: { span: 16 },
-      };
 
       const [name, setName] = useState("no name");
       const [age, setAge] = useState("no age");
@@ -42,7 +20,7 @@ const PrescriptionForm = () => {
       const [remarks, setRemarks] = useState("no remarks");
       const [loading, setLoading] = useState(false);
       const [medication, setMedication] = useState("no medicines");
-      const [email, setEmail] = useState("coolestcucumber123@gmail.com");
+      const [, setEmail] = useState("coolestcucumber123@gmail.com");
       const [] = useState(null);
 
       function handleNameChange(newName) {
@@ -77,7 +55,7 @@ const PrescriptionForm = () => {
 
             axios({
                   method: "POST",
-                  url: "/generate/pdf",
+                  url: "https://localhost:44370/generate/pdf",
                   responseType: "blob",
                   withCredentials: true,
                   headers: {
@@ -109,8 +87,8 @@ const PrescriptionForm = () => {
 
       function sendEmail() {
             axios({
-                  method: "POST",
-                  url: "/generate/email",
+                  method: "GET",
+                  url: "https://localhost:44362/WeatherForecast",
                   data: {
                         Name: name + " ",
                         Age: age + " ",

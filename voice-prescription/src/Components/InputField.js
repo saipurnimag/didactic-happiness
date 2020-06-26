@@ -39,6 +39,7 @@ const InputField = ({ changeHandler, labelName }) => {
     const toggle = listening
         ? stop
         : () => {
+            console.log("Pressed!")
             setBlocked(false);
             listen({ lang });
         };
@@ -61,10 +62,20 @@ const InputField = ({ changeHandler, labelName }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const handleTextChange = (event) =>{
+        changeHandler(event.target.value);
+        setValue(event.target.value);
+    }
+
     return (
         <>
             <Input
+                type="text"
+                id="transcript"
+                value = {value}
                 placeholder={labelName}
+                onChange={handleTextChange}
                 suffix= {listening? <AudioTwoTone
                             style={{
                             fontSize: 16,
@@ -74,11 +85,12 @@ const InputField = ({ changeHandler, labelName }) => {
                         />:<AudioOutlined 
                         style={{
                             fontSize: 16,
-                            color: '#1890ff',
+                            color: 'black',
                             }}
                             onClick = {toggle}
                         />
                         }
+                
             />
         </>
     );

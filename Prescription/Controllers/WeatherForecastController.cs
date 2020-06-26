@@ -12,6 +12,7 @@ using Syncfusion.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Cors;
 
 namespace Prescription.Controllers
 {
@@ -22,7 +23,10 @@ namespace Prescription.Controllers
     
 
     public class WeatherForecastController : ControllerBase
+
     {
+
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -37,6 +41,7 @@ namespace Prescription.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [EnableCors]
         public String Get([FromBody] Prescription prescription)
         {
             //Create a new PDF document.
@@ -111,7 +116,7 @@ namespace Prescription.Controllers
             return "Success";
 
         }
-
+        
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Post([FromBody] Prescription prescription)
@@ -157,34 +162,34 @@ namespace Prescription.Controllers
             string fileName = "Prescription.pdf";
             //Creates a FileContentResult object by using the file contents, content type, and file name.
 
-            try
-            {
-                using (MailMessage message = new MailMessage("coolestcucumber123@gmail.com", "coolestcucumber123@gmail.com"))
-                {
-                    message.Subject = "model.Subject";
-                    message.Body = "model.Body";
-                    message.IsBodyHtml = false;
+            ////try
+            ////{
+            ////    using (MailMessage message = new MailMessage("coolestcucumber123@gmail.com", "coolestcucumber123@gmail.com"))
+            ////    {
+            ////        message.Subject = "model.Subject";
+            ////        message.Body = "model.Body";
+            ////        message.IsBodyHtml = false;
 
-                    //string filename = Path.GetFileName(model.Attachment.FileName);
-                    message.Attachments.Add(new Attachment(stream, contentType));
+            ////        //string filename = Path.GetFileName(model.Attachment.FileName);
+            ////        message.Attachments.Add(new Attachment(stream, contentType));
 
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Host = "smtp.gmail.com";
-                        smtp.EnableSsl = true;
-                        NetworkCredential cred = new NetworkCredential("coolestcucumber123@gmail.com", "Coolestcucumber@123");
-                        smtp.UseDefaultCredentials = true;
-                        smtp.Credentials = cred;
-                        smtp.Port = 587;
-                        smtp.Send(message);
-                        Console.WriteLine("sent");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            ////        using (SmtpClient smtp = new SmtpClient())
+            ////        {
+            ////            smtp.Host = "smtp.gmail.com";
+            ////            smtp.EnableSsl = true;
+            ////            NetworkCredential cred = new NetworkCredential("coolestcucumber123@gmail.com", "Coolestcucumber@123");
+            ////            smtp.UseDefaultCredentials = true;
+            ////            smtp.Credentials = cred;
+            ////            smtp.Port = 587;
+            ////            smtp.Send(message);
+            ////            Console.WriteLine("sent");
+            ////        }
+            ////    }
+            ////}
+            ////catch (Exception e)
+            ////{
+            ////    Console.WriteLine(e);
+            ////}
 
 
             return File(stream, contentType, fileName);
