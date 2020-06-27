@@ -29,14 +29,12 @@ namespace PrescriptionAPI
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:3000",
-                                                          "http://localhost:3000/prescription")
-                                      .AllowAnyHeader()
-                                      .AllowAnyMethod();
-                                  });
+                options.AddPolicy(MyAllowSpecificOrigins,
+                                  builder => builder.AllowAnyOrigin()
+                                  .AllowAnyMethod()
+                                  .AllowAnyHeader()
+                                  );
+                                    
             });
             services.AddControllers();
         }
@@ -44,19 +42,26 @@ namespace PrescriptionAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            
+
             app.UseStaticFiles();
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            
 
             app.UseAuthorization();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

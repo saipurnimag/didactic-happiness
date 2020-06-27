@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Syncfusion.Drawing;
 using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Grid;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,7 +28,7 @@ namespace PrescriptionAPI.Controllers
 
         // POST api/<controller>
         
-        [EnableCors("MyAllowSpecificOrigins")]
+        [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost("generate/pdf")]
         [AllowAnonymous]
         public IActionResult Post([FromBody]Prescription prescription)
@@ -37,12 +39,18 @@ namespace PrescriptionAPI.Controllers
 
             PdfGrid pdfGrid = new PdfGrid();
 
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
+
+            PdfGraphics graphics = page.Graphics;
+
+            graphics.DrawString("Prescription from Dr. Sangeetha generated at "+DateTime.Now, font, PdfBrushes.Black, new PointF(0, 0));
+
             List<object> data = new List<object>();
-            Object row1 = new { ID = "Name", Name = prescription.Name+"\n" };
-            Object row2 = new { ID = "Age", Name = prescription.Age + "\n" };
-            Object row3 = new { ID = "Symptoms", Name = prescription.Symptoms + "\n" };
-            Object row4 = new { ID = "Diagnosis", Name = prescription.Diagnosis + "\n" };
-            Object row5 = new { ID = "Remarks", Name = prescription.Remarks + "\n" };
+            Object row1 = new { ID = "\n  PatientName", Name = "\n  " + prescription.Name + "\n" };
+            Object row2 = new { ID = "\n  Age & gender", Name = "\n " + prescription.Age + "\n" };
+            Object row3 = new { ID = "\n  Symptoms", Name = "\n  " + prescription.Symptoms + "\n" };
+            Object row4 = new { ID = "\n  Diagnosis", Name = "\n  " + prescription.Diagnosis + "\n" };
+            Object row5 = new { ID = "\n  Remarks", Name = "\n  " + prescription.Remarks + "\n" };
             data.Add(row1);
             data.Add(row2);
             data.Add(row3);
@@ -53,7 +61,7 @@ namespace PrescriptionAPI.Controllers
             //Assign data source.
             pdfGrid.DataSource = dataTable;
             //Draw grid to the page of PDF document.
-            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(10, 10));
+            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(10, 20));
             //Save the PDF document to stream
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
@@ -70,9 +78,9 @@ namespace PrescriptionAPI.Controllers
         }
 
         [HttpPost("generate/email")]
-        [EnableCors("MyAllowSpecificOrigins")]
+        [EnableCors("_myAllowSpecificOrigins")]
         [AllowAnonymous]
-        public String sendEmail([FromBody] Prescription prescription)
+        public String sendEmail([FromBody] Email Email_Prescription)
         {
             //Create a new PDF document.
             PdfDocument doc = new PdfDocument();
@@ -83,13 +91,19 @@ namespace PrescriptionAPI.Controllers
             //Create a PdfGrid.
             PdfGrid pdfGrid = new PdfGrid();
 
+            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
+
+            PdfGraphics graphics = page.Graphics;
+
+            graphics.DrawString("Prescription from Dr. Sangeetha generated at " + DateTime.Now, font, PdfBrushes.Black, new PointF(0, 0));
+
             //Add values to list
             List<object> data = new List<object>();
-            Object row1 = new { ID = "Name", Name = prescription.Name };
-            Object row2 = new { ID = "Age", Name = prescription.Age };
-            Object row3 = new { ID = "Symptoms", Name = prescription.Symptoms };
-            Object row4 = new { ID = "Diagnosis", Name = prescription.Diagnosis };
-            Object row5 = new { ID = "Remarks", Name = prescription.Remarks };
+            Object row1 = new { ID = "\n  PatientName", Name = "\n  " + Email_Prescription.Name + "\n" };
+            Object row2 = new { ID = "\n  Age & gender", Name = "\n " + Email_Prescription.Age + "\n" };
+            Object row3 = new { ID = "\n  Symptoms", Name = "\n  " + Email_Prescription.Symptoms + "\n" };
+            Object row4 = new { ID = "\n  Diagnosis", Name = "\n  " + Email_Prescription.Diagnosis + "\n" };
+            Object row5 = new { ID = "\n  Remarks", Name = "\n  " + Email_Prescription.Remarks + "\n" };
             data.Add(row1);
             data.Add(row2);
             data.Add(row3);
@@ -100,7 +114,7 @@ namespace PrescriptionAPI.Controllers
             //Assign data source.
             pdfGrid.DataSource = dataTable;
             //Draw grid to the page of PDF document.
-            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(10, 10));
+            pdfGrid.Draw(page, new Syncfusion.Drawing.PointF(10, 20));
             //Save the PDF document to stream
             MemoryStream stream = new MemoryStream();
             doc.Save(stream);
@@ -118,8 +132,8 @@ namespace PrescriptionAPI.Controllers
             {
                 using (MailMessage message = new MailMessage("coolestcucumber123@gmail.com", "coolestcucumber123@gmail.com"))
                 {
-                    message.Subject = "model.Subject";
-                    message.Body = "model.Body";
+                    message.Subject = "Prescription from Dr.Sangeetha";
+                    message.Body = "The following Prescription was generated for patient "+Email_Prescription.Name+", "+Email_Prescription.Age+" at "+DateTime.Now;
                     message.IsBodyHtml = false;
 
                     //string filename = Path.GetFileName(model.Attachment.FileName);
@@ -158,6 +172,11 @@ namespace PrescriptionAPI.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    public class Email : Prescription
+    {
+        string PatientEmail { get; set; }
     }
 
     public class Prescription

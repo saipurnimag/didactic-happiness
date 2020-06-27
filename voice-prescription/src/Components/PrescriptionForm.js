@@ -74,12 +74,11 @@ const PrescriptionForm = () => {
 
       function sendPDFReq() {
             if (!loading) setLoading(true);
-
             axios({
                   method: "POST",
-                  url: "/generate/pdf",
+                  url: "https://localhost:5001/generate/pdf",
                   responseType: "blob",
-                  withCredentials: true,
+                  withCredentials: false,
                   headers: {
                         "Access-Control-Allow-Origin": "*"
                   },
@@ -110,7 +109,7 @@ const PrescriptionForm = () => {
       function sendEmail() {
             axios({
                   method: "POST",
-                  url: "/generate/email",
+                  url: "https://localhost:5001/generate/email",
                   data: {
                         Name: name + " ",
                         Age: age + " ",
@@ -118,6 +117,7 @@ const PrescriptionForm = () => {
                         Diagnosis: diagnosis + " ",
                         Medication: medication + " ",
                         Remarks: remarks + " ",
+                        Email: email +" ",
                   },
             })
                   .then((result) => {

@@ -9,12 +9,11 @@ function Prescription() {
     return (
         <Content style={{ margin: "20px 20px 20px 20px" }}>
             
-                <Row gutter={16} sm={{span:18, offset:3}} md={{span:18, offset:3}}>
-                    <Col span={8} offset={8}>
-                        <center>
-                            <Title>Generate Prescriptions</Title>
+                <Row gutter={16} >
+                    <Col sm={{span:18, alignItems:'center'}} md={{span:18,offset:2}} lg={{span:8, offset:8}}>
+                        
+                            <Title level={2} >Generate Prescriptions</Title>
                             <br />
-                        </center>
                     </Col>
                     
                 </Row>
