@@ -37,6 +37,7 @@ export default class Auth {
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
+        //
         // navigate to the home route
         history.replace('/home');
     }
@@ -44,12 +45,14 @@ export default class Auth {
     // removes user details from localStorage
     logout = () => {
         // Clear access token and ID token from local storage
+        localStorage.accessToken = null;
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        // navigate to the home route
+       // navigate to the home route
         history.replace('/home');
     }
+
 
     // checks if the user is authenticated
     isAuthenticated = () => {

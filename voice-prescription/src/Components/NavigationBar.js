@@ -8,9 +8,23 @@ import { HomeOutlined, UserDeleteOutlined, SmileOutlined , SettingOutlined, Logi
 import renderEmpty from "antd/lib/config-provider/renderEmpty";
 import Login from "./Login";
 import Register from "./Register";
-
+import history from '../history';
 
 const { SubMenu } = Menu;
+
+const logout = () => {
+    // Clear access token and ID token from local storage
+    localStorage.access_token = null;
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+    //localStorage.clear();
+    // navigate to the home route
+    //history.push('/home');
+   //history.replace('./home');
+    history.replace('/home');
+    
+}
 
 const RightMenu = () =>{
   const [current, setCurrent] = useState("mail");
@@ -29,11 +43,10 @@ const RightMenu = () =>{
                 Home
             </Link>
         </Menu.Item>
-      
-        <Menu.Item key = "Login" icon = {<LoginOutlined />}>
-            <Link to={"/login"} className="nav-link">
-                Login
-            </Link>
+
+          <Menu.Item key="Logout" icon={<LoginOutlined />} onClick={logout}>
+           
+                Logout
         </Menu.Item>
 
         <Menu.Item key = "Prescription" icon = {<FilePdfOutlined />}>
