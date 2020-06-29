@@ -143,7 +143,7 @@ namespace PrescriptionAPI.Controllers
                     {
                         smtp.Host = "smtp.gmail.com";
                         smtp.EnableSsl = true;
-                        NetworkCredential cred = new NetworkCredential("coolestcucumber123@gmail.com", "Coolestcucumber@123");
+                        NetworkCredential cred = new NetworkCredential("coolestcucumber123@gmail.com", "xxxxxxxxxxxxx");
                         smtp.UseDefaultCredentials = true;
                         smtp.Credentials = cred;
                         smtp.Port = 587;
